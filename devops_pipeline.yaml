@@ -1,0 +1,57 @@
+resources:
+  containers:
+    - container: redis5
+      image: redis:5
+    - container: redis4
+      image: redis:4
+
+jobs:
+  - job: BuildAndTest
+    displayName: Build and Test
+
+    pool:
+      vmImage: 'ubuntu-16.04'
+
+    container:
+      image: example.azurecr.io/my-project-pipeline-environment:20190518.1
+      endpoint: 'MyACR'
+
+    services:
+      redis5: redis5
+      redis4: redis4
+
+    variables:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+      containerRegistryServiceConnection: myregistrydavid
+      imageRepository: myregistrydavid/informer
+      tag: devops
+    steps:
+      - task: Maven@3
+        inputs:
+          mavenPomFile: 'pom.xml'
+          mavenOptions: '-Xmx3072m'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.11'
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          testResultsFiles: '**/TEST-*.xml'
+          goals: 'package'
+        env:
+          CONNECTIONSTRINGS_REDIS: redis5:6379
+        continueOnError: true
+    - task: Docker@2
+      displayName: dockerBuild
+      inputs:
+        repository: $(imageRepository)
+        command: build
+        Dockerfile: Dockerfile
+        tags: |
+          $(tag)
+    - task: Docker@2
+      displayName: dockerPush
+      inputs:
+        command: push
+        containerRegistry: $(containerRegistryServiceConnection)
+        repository: $(imageRepository)
+        tags:
+          $(tag)
