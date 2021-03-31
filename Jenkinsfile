@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 pipeline { 
-//test1
+//test
     agent { 
         kubernetes {
            // image 'maven:3.6.3-jdk-11' 
