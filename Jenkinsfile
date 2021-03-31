@@ -12,16 +12,17 @@ pipeline {
         jdk 'jdk-11' 
         maven 'maven-3.6.3'
     }
-    node {
-        checkout scm 
-	stage('Clone sources') {
-             git url: 'https://github.com/davidmachacek/infomer.git'
-        }
+//    node {
+//        checkout scm 
+//	stage('Clone sources') {
+//             git url: 'https://github.com/davidmachacek/infomer.git'
+//        }
+//
+//        stage('Build Maven') {
+//            sh "mvn clean package"
+//        }
+//    }
 
-        stage('Build Maven') {
-            sh "mvn clean package"
-        }
-    }
     stages { 
         stage ('Build') { 
             steps {
