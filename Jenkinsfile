@@ -10,6 +10,10 @@ pipeline {
         
         jdk 'jdk-11' maven 'maven-3.6.3'
     }
+    node {
+        checkout scm 
+        /* .. snip .. */
+    }
     stages { stage ('Build') { steps {
             //git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
                 //withMaven {
