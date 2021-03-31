@@ -12,6 +12,13 @@ pipeline {
     }
     node {
         checkout scm 
+	stage('Clone sources') {
+             git url: 'https://github.com/davidmachacek/infomer.git'
+        }
+
+        stage('Build Maven') {
+            sh "mvn clean package"
+        }
         /* .. snip .. */
     }
     stages { stage ('Build') { steps {
