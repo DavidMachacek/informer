@@ -8,8 +8,8 @@ pipeline {
     }
     tools {
 //        maven 'Maven 3.3.9' jdk 'jdk8'
-        
-        jdk 'jdk-11' maven 'maven-3.6.3'
+        jdk 'jdk-11' 
+        maven 'maven-3.6.3'
     }
     node {
         checkout scm 
@@ -20,7 +20,6 @@ pipeline {
         stage('Build Maven') {
             sh "mvn clean package"
         }
-        /* .. snip .. */
     }
     stages { 
         stage ('Build') { 
