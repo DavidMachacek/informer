@@ -2,7 +2,7 @@
 pipeline { 
     agent { 
         kubernetes {
-           //image 'maven:3.6.3-jdk-11' 
+           // image 'maven:3.6.3-jdk-11' 
            namespace 'jenkins'
         }
     }
