@@ -1,0 +1,1 @@
+Test application for demo purposes in k8s
